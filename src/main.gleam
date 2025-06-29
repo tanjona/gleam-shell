@@ -1,4 +1,4 @@
-import execution/runner
+import execution/run
 import gleam/erlang
 import gleam/io
 import gleam/result
@@ -11,10 +11,11 @@ pub fn main() {
 
 fn shell() {
   let _ = case erlang.get_line("$ ") {
-    Ok(cmd) ->
-      cmd.line_to_cmd(string.trim(cmd))
-      |> result.map(fn(cmd) { runner.matcher(cmd) })
-    _ -> Error("No line found!")
+    Ok(line) ->
+      cmd.line_to_cmd(string.trim(line))
+      |> result.map_error(fn(str) { io.println(str) })
+      |> result.map(fn(cmd) { run.apply(cmd) })
+    Error(_) -> Error(Nil)
   }
   shell()
 }

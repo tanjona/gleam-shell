@@ -1,4 +1,3 @@
-import gleam/erlang/process
 import gleam/io
 import parser/cmd
 
@@ -9,9 +8,9 @@ pub fn exit() {
   halt(0)
 }
 
-pub fn matcher(cmd: cmd.Command) {
+pub fn apply(cmd: cmd.Command) {
   let _ = case cmd {
     cmd.Exit -> exit()
-    _ -> io.print("command not found")
+    cmd.Help -> io.print("usage: exit 0")
   }
 }
