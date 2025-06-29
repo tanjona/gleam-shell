@@ -1,8 +1,10 @@
+import gleam/list
 import gleam/string
 
 pub type Command {
   Exit
   Echo(args: List(String))
+  Type(arg: Result(String, Nil))
   Help
 }
 
@@ -13,6 +15,7 @@ pub fn string_to_command(
   case raw {
     "exit" -> Ok(Exit)
     "echo" -> Ok(Echo(args))
+    "type" -> Ok(Type(list.first(args)))
     _ -> Error(raw <> ": command not found")
   }
 }
